@@ -39,3 +39,8 @@ jobs:
         with:
           name: electron-app
           path: dist/
+
+      - name: Debugging
+        run: |
+          echo "List all files in the current directory"
+          ls -al
