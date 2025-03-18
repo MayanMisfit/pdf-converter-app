@@ -35,7 +35,7 @@ jobs:
         run: npm run dist
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@3c9461b95db90d7ed5a58f0f02d1e6fe114d8f1a
+        uses: actions/upload-artifact@v2
         with:
           name: electron-app
           path: dist/
