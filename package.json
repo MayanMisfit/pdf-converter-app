@@ -1,0 +1,26 @@
+{
+  "name": "pdf-converter-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MayanMisfit/pdf-converter-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MayanMisfit/pdf-converter-app/issues"
+  },
+  "homepage": "https://github.com/MayanMisfit/pdf-converter-app#readme",
+  "dependencies": {
+    "electron": "^35.0.2",
+    "electron-builder": "^25.1.8",
+    "pdf-lib": "^1.17.1"
+  }
+}
