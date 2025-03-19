@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Converter App</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1>PDF Converter App</h1>
-  <input type="file" id="fileInput" />
-  <button id="convertButton">Convert PDF</button>
-  <pre id="output"></pre>
-  <script src="renderer.js"></script>
-</body>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PDF Converter App</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <h1>PDF Converter App</h1>
+    </header>
+    <main>
+      <section id="converter">
+        <input type="file" id="pdfInput" accept="application/pdf">
+        <button id="convertBtn">Convert PDF</button>
+      </section>
+      <section id="output">
+        <h2>Converted Text</h2>
+        <pre id="textOutput"></pre>
+        <button id="saveTxtBtn">Save as TXT</button>
+        <button id="saveMdBtn">Save as Markdown</button>
+        <button id="resetBtn">Reset</button>
+      </section>
+    </main>
+    <script src="renderer.js"></script>
+  </body>
 </html>

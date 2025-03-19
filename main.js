@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
-const { PDFDocument } = require('pdf-lib');
 const fs = require('fs');
+const pdf = require('pdf-parse');
 
 let mainWindow;
 
@@ -12,8 +12,7 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      enableRemoteModule: false,
-      nodeIntegration: false,
+      nodeIntegration: false
     },
   });
 
@@ -40,13 +39,57 @@ app.on('activate', function () {
 
 ipcMain.handle('convert-pdf', async (event, filePath) => {
   try {
-    const pdfBytes = fs.readFileSync(filePath);
-    const pdfDoc = await PDFDocument.load(pdfBytes);
-    const pages = pdfDoc.getPages();
-    const textContent = pages.map((page) => page.getTextContent().items.map((item) => item.str).join(' ')).join('\n');
-    return textContent;
+    const dataBuffer = fs.readFileSync(filePath);
+    const data = await pdf(dataBuffer);
+    return data.text;
   } catch (error) {
     console.error('Error converting PDF:', error);
     throw error;
+  }
+});
+
+ipcMain.handle('save-txt', async (event, content) => {
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    title: 'Save Converted Text as TXT',
+    defaultPath: 'converted.txt',
+    filters: [
+      { name: 'Text Files', extensions: ['txt'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+
+  if (canceled || !filePath) {
+    return { success: false };
+  }
+
+  try {
+    fs.writeFileSync(filePath, content, 'utf8');
+    return { success: true };
+  } catch (error) {
+    console.error('Error writing TXT file:', error);
+    return { success: false };
+  }
+});
+
+ipcMain.handle('save-md', async (event, content) => {
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    title: 'Save Converted Text as Markdown',
+    defaultPath: 'converted.md',
+    filters: [
+      { name: 'Markdown Files', extensions: ['md'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+
+  if (canceled || !filePath) {
+    return { success: false };
+  }
+
+  try {
+    fs.writeFileSync(filePath, content, 'utf8');
+    return { success: true };
+  } catch (error) {
+    console.error('Error writing Markdown file:', error);
+    return { success: false };
   }
 });
